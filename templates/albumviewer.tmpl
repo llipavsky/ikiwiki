@@ -1,0 +1,15 @@
+<div class="album-viewer">
+<div id="album-img">
+<TMPL_VAR NAME=PREV>
+
+<TMPL_IF NAME="NEXT">
+<TMPL_VAR NAME=NEXT>
+<TMPL_ELSE>
+<div class="album-finish">
+<a href="<TMPL_VAR NAME=ALBUMURL>"><span class="album-arrow">â†‘</span></a>
+</div>
+</TMPL_IF>
+
+<TMPL_VAR NAME="IMG">
+</div>
+</div>

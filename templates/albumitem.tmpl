@@ -1,0 +1,34 @@
+<TMPL_IF NAME=FIRST>
+<div class="album">
+</TMPL_IF>
+
+<div class="album-item">
+<div class="album-thumbnail">
+<TMPL_VAR NAME=THUMBNAIL>
+</div>
+<div class="album-title">
+<a href="<TMPL_VAR NAME=PAGEURL>"><TMPL_VAR NAME=TITLE></a>
+</div>
+<div class="album-metadata">
+<TMPL_IF NAME=CTIME>
+<span class="album-ctime">
+<TMPL_VAR NAME=CTIME>
+</span>
+</TMPL_IF>
+<TMPL_IF NAME=IMAGEWIDTH>
+<span class="album-dimensions"><TMPL_VAR NAME=IMAGEWIDTH ESCAPE=HTML>
+  &#xd7; <TMPL_VAR NAME=IMAGEHEIGHT ESCAPE=HTML></span>
+</TMPL_IF>
+<TMPL_IF NAME=IMAGEFORMAT>
+<span class="album-format"><TMPL_VAR NAME=IMAGEFORMAT ESCAPE=HTML></span>
+</TMPL_IF>
+<TMPL_IF NAME=IMAGEFILESIZE>
+<span class="album-size"><TMPL_VAR NAME=IMAGEFILESIZE ESCAPE=HTML></span>
+</TMPL_IF>
+</div>
+<div class="album-caption"><TMPL_VAR NAME=CAPTION></div>
+</div>
+
+<TMPL_IF NAME=LAST>
+</div> <div class="album-end"></div>
+</TMPL_IF>
