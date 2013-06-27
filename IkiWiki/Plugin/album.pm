@@ -2,6 +2,10 @@
 # Copyright Â© 2009-2011 Simon McVittie <http://smcv.pseudorandom.co.uk/>
 # Licensed under the GNU GPL, version 2, or any later version published by the
 # Free Software Foundation
+
+# Copyright 2013 Lukas Lipavsky <lukas@lipavsky.cz>
+# - Add tag="tag1 tag2" to [[!album]]
+
 package IkiWiki::Plugin::album;
 
 use warnings;
@@ -25,6 +29,7 @@ sub import {
 	IkiWiki::loadplugin("inline");
 	IkiWiki::loadplugin("trail");
 	IkiWiki::loadplugin("transient");
+	IkiWiki::loadplugin("tag");
 }
 
 sub getsetup () {
@@ -61,6 +66,7 @@ sub getsetup () {
 # sort - as for inline
 # sections - ref to array of pagespecs representing sections
 # viewers - list of viewers' names
+# tags - list of tags that should be added to viewers
 #
 # Page state for image viewers:
 #
@@ -288,6 +294,7 @@ sub preprocess_album {
 	my $album = $params{page};
 
 	my @viewers = scan_images($album);
+	my $tags = defined($params{tag}) ? $params{tag} : "";
 
 	# placeholder for the "remaining images" section
 	push @{$pagestate{$album}{album}{sections}}, ""
@@ -302,6 +309,7 @@ sub preprocess_album {
 		nexttemplate => $params{nexttemplate},
 		prevtemplate => $params{prevtemplate},
 		viewers => [@viewers],
+		tags => [split(' ', $tags)],
 		# in the render phase, we want to keep the sections that we
 		# accumulated during the scan phase, if any
 		sections => $pagestate{$album}{album}{sections},
@@ -455,6 +463,13 @@ sub preprocess_albumimage {
 	else {
 		$img = htmllink($viewer, $params{destpage}, "/$image");
 	}
+
+	# Tags (always return "")
+	IkiWiki::Plugin::tag::preprocess_tag(
+		page => $viewer,
+		destpage => $params{destpage},
+		map { ($_ => 1) } @{$pagestate{$album}{album}{tags}},
+	);
 
 	my $viewertemplate = template(
 		$pagestate{$album}{album}{viewertemplate} or
