@@ -31,8 +31,6 @@ sub calculate_links () {
 sub backlink_pages ($) {
 	my $page=shift;
 
-	calculate_links();
-
 	return keys %{$backlinks{$page}};
 }
 
